@@ -1,83 +1,86 @@
-const User = require('../models/userModel'); // Assuming your User model is in models/User.js
+const UserModel = require('../models/userModel');
+const jwt = require('jsonwebtoken');
 
-// Create a new User (optional registration)
-const createUser = async (req, res) => {
-  try {
-    const newUser = new User(req.body);
-    await newUser.save();
-    res.status(201).json(newUser);
-  } catch (err) {
-    if (err.code === 11000 && err.keyValue.email) { // Handle duplicate email error
-      return res.status(400).json({ message: "Email already exists" });
+require('dotenv').config()
+
+
+const signUp = async (req, res) => {
+    try {
+        const userFromRequest = req.body
+
+        const existingUser = await UserModel.findOne({
+            email: userFromRequest.email
+        });
+    
+        if (existingUser) {
+            return res.status(409).json({
+                message: 'User already created',
+            })
+        }
+    
+        const user = await UserModel.create({
+            first_name: userFromRequest.first_name,
+            last_name: userFromRequest.last_name,
+            username: userFromRequest.username,
+            password: userFromRequest.password,
+            email: userFromRequest.email,
+        });
+        
+        return res.status(201).json({
+            message: 'User created successfully',
+        }) 
+        
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Server Error',
+            data: null
+        })
     }
-    console.error(err);
-    res.status(500).json({ message: "Error creating user" });
-  }
-};
 
-// Get all Users (consider security implications for production)
-const getUsers = async (req, res) => {
-  try {
-    const users = await User.find();
-    res.status(200).json(users);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Error fetching users" });
-  }
-};
+}
 
-// Get a single User by ID (for internal use or authorized access)
-const getUserById = async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+
+const Login = async (req, res) => {
+    try {
+        const userFromRequest = req.body
+    
+        const user = await UserModel.findOne({
+            email: userFromRequest.email,
+        });
+    
+        if (!user) {
+            return res.status(404).json({
+                message: 'User not found',
+            }) 
+        }
+    
+        const validPassword = await user.isValidPassword(userFromRequest.password)
+    
+        if (!validPassword) {
+            return res.status(422).json({
+                message: 'Email or password is not correct',
+            }) 
+        }
+    
+        const token = await jwt.sign({ email: user.email, _id: user._id}, 
+            process.env.JWT_SECRET, 
+            { expiresIn: '1h' })
+    
+        return res.status(200).json({
+            message: 'Login successful',
+            token
+        })
+    } catch (error) {
+        logger.error(error.message);
+        return res.status(500).json({
+            message: 'Server Error',
+            data: null
+        })
     }
-    res.status(200).json(user);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Error fetching user" });
-  }
-};
+}
 
-// Update a User by ID (consider implementing authentication for updates)
-const updateUser = async (req, res) => {
-  const { id } = req.params;
-  const update = req.body;
-
-  try {
-    const updatedUser = await User.findByIdAndUpdate(id, update, { new: true });
-    if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.status(200).json(updatedUser);
-  } catch (err) {
-    if (err.code === 11000 && err.keyValue.email) { // Handle duplicate email error on update
-      return res.status(400).json({ message: "Email already exists" });
-    }
-    console.error(err);
-    res.status(500).json({ message: "Error updating user" });
-  }
-};
-
-// Delete a User by ID (consider security implications for production)
-const deleteUser = async (req, res) => {
-  try {
-    const user = await User.findByIdAndDelete(req.params.id);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.status(200).json({ message: "User deleted successfully" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Error deleting user" });
-  }
-};
 
 module.exports = {
-    getUserById,
-    createUser,
-    getUsers,
-    updateUser,
-    deleteUser
+    signUp,
+    Login
 }

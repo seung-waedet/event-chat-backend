@@ -2,9 +2,6 @@ const express = require("express");
 const questionRoute = express.Router();
 const questionController = require("../controllers/questionController")
 
-questionRoute.get("/questions", questionController.getQuestions)
-
-questionRoute.get("/questions/:id", questionController.getQuestionById)
 
 questionRoute.post("/questions", questionController.createQuestion)
 
