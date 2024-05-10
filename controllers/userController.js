@@ -8,13 +8,18 @@ const signUp = async (req, res) => {
     try {
         const userFromRequest = req.body
 
-        const existingUser = await UserModel.findOne({
-            email: userFromRequest.email
-        });
-    
-        if (existingUser) {
+        const [existingEmailUser, existingUsernameUser] = await Promise.all([
+            UserModel.findOne({ email: userFromRequest.email }),
+            UserModel.findOne({ username: userFromRequest.username }),
+        ]);
+
+        if (existingEmailUser) {
             return res.status(409).json({
-                message: 'User already created',
+                message: 'Email already in use',
+            })
+        } else if (existingUsernameUser) {
+            return res.status(409).json({
+                message: 'Username already taken',
             })
         }
     

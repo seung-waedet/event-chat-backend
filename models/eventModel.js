@@ -21,13 +21,11 @@ const eventSchema = new Schema({
   },
   access_code: {
     type: String,
-    required: true,
     unique: true
   },
   created_by: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: true
   }
 });
 
