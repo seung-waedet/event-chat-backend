@@ -1,3 +1,4 @@
+const { boolean } = require('joi');
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
@@ -11,21 +12,16 @@ const eventSchema = new Schema({
     type: String,
     required: true
   },
-  start_date_time: {
-    type: Date,
-    required: true
-  },
-  end_date_time: {
-    type: Date,
-    required: true
-  },
-  access_code: {
-    type: String,
-    unique: true
+  isLive: {
+    type: boolean,
   },
   created_by: {
     type: Schema.Types.ObjectId,
     ref: 'User',
+  },
+  code: {
+  type: String,
+  unique: true
   }
 });
 

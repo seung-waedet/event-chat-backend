@@ -1,32 +1,35 @@
 const mongoose = require('mongoose');
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
 
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     
-    first_name: {
+    displayName: {
       type: String,
-      optional: true
+      required: True
     },
-    last_name: {
-        type: String,
-        optional: true
-      },
     email: {
       type: String,
-      optional: true,
-      unique: true
-    },
-    username: { 
-      type: String, 
-      unique: true, 
-      required: true 
+      optional: True,
+      unique: True
     },
     password: {
       type: String,
-      required: true,
+      required: True,
     },
+    displayImage: {
+      type: String,
+      optional: True,
+    },
+    bio: {
+      type: String,
+      required: True
+    },
+    userType: {
+      type: String,
+      required: True
+    }
   });
 
 // before save
