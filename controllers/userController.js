@@ -1,8 +1,21 @@
 const UserModel = require('../models/userModel');
 const jwt = require('jsonwebtoken');
-
 require('dotenv').config()
 
+
+const createUser = async (req, res) => {
+        try {
+          const newUser = new User(req.body);
+          await newUser.save();
+          res.status(201).json(newUser);
+        } catch (err) {
+          if (err.code === 11000 && err.keyValue.email) { // Handle duplicate email error
+            return res.status(400).json({ message: "Email already exists" });
+          }
+          console.error(err);
+          res.status(500).json({ message: "Error creating user" });
+        }
+      };
 
 const signUp = async (req, res) => {
     try {
@@ -67,7 +80,7 @@ const Login = async (req, res) => {
             }) 
         }
     
-        const token = await jwt.sign({ email: user.email, _id: user._id}, 
+        const token = await jwt.sign({ email: user.email, _id: user._id, userType: user.userType}, 
             process.env.JWT_SECRET, 
             { expiresIn: '1h' })
     
@@ -87,5 +100,6 @@ const Login = async (req, res) => {
 
 module.exports = {
     signUp,
+    createUser,
     Login
 }

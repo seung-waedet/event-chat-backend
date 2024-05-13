@@ -4,7 +4,7 @@ const logger = require("morgan")
 const userRoute = require("./routes/userRoute");
 const eventRoute = require("./routes/eventRoute")
 const questionRoute = require("./routes/questionRoute")
-const speakerRoute = require("./routes/speakerRoute")
+const participantRoute = require("./routes/participantRoute")
 const db = require("./db")
 
 const PORT = process.env.PORT || 3000
@@ -17,7 +17,7 @@ db.connectToDb();
 app.use(logger("dev"));
 
 // Routes
-app.use("/api", userRoute, eventRoute, questionRoute, speakerRoute)
+app.use("/api", userRoute, eventRoute, questionRoute, participantRoute)
 
 
 app.get("/", (req, res) => {

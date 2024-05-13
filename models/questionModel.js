@@ -5,24 +5,24 @@ const Schema = mongoose.Schema;
 const questionSchema = new Schema({
     content: {
       type: String,
-      required: True
+      required: true
     },
     assignedTo: {
       type: String,
-      required: True
+      required: true
     },
     isAnswered: {
       type: Boolean,
     },
-    event_id: {
+    eventId: {
       type: Schema.Types.ObjectId,
       ref: 'Event',
-      required: True
+      required: true
     },
-    participant_id: {
+    participantId: {
       type: Schema.Types.ObjectId,
       ref: 'Participant',
-      required: True
+      required: true
     }
   });
 

@@ -1,8 +1,7 @@
 const Joi = require('joi');
 
 const userSchema = Joi.object({
-  first_name: Joi.string().min(3).trim().optional(),
-  last_name: Joi.string().min(3).trim().optional(),
+  name: Joi.string().min(3).trim().optional(),
   email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'org', 'io'] } }).optional().custom((value, helper) => {
     if (value && helper.state.userExists) {
       return helper.error('email already exists');
@@ -11,6 +10,11 @@ const userSchema = Joi.object({
   }),
   username: Joi.string().alphanum().min(3).max(30).required(),
   password: Joi.string().min(8).required(),
+  displayName: Joi.string().min(3).trim().optional(),
+  bio: Joi.string().min(3).trim().optional(),
+  userType: Joi.string().valid('admin', 'speaker', 'participant').required()
+
+
 });
 
 
@@ -48,5 +52,6 @@ const validateSignup = async (req, res, next) => {
   
 module.exports = {
     validateSignup,
-    validateLogin
+    validateLogin,
+    userSchema
 }

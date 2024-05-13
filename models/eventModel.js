@@ -13,9 +13,9 @@ const eventSchema = new Schema({
     required: true
   },
   isLive: {
-    type: boolean,
+    type: String,
   },
-  created_by: {
+  createdBy: {
     type: Schema.Types.ObjectId,
     ref: 'User',
   },

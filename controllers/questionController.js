@@ -28,8 +28,8 @@ const getQuestions = async (req, res) => {
 const getQuestionById = async (req, res) => {
   try {
     const question = await Question.findById(req.params.id)
-      .populate('event_id', 'name description') // Populates event details
-      .populate('user_id', 'name'); // Populates user details (if available)
+      .populate('eventId', 'name description') // Populates event details
+      .populate('userId', 'name'); // Populates user details (if available)
     if (!question) {
       return res.status(404).json({ message: "Question not found" });
     }

@@ -7,28 +7,28 @@ const userSchema = new Schema({
     
     displayName: {
       type: String,
-      required: True
+      required: true
     },
     email: {
       type: String,
-      optional: True,
-      unique: True
+      optional: true,
+      unique: true
     },
     password: {
       type: String,
-      required: True,
+      required: true,
     },
     displayImage: {
       type: String,
-      optional: True,
+      optional: true,
     },
     bio: {
       type: String,
-      required: True
+      required: true
     },
     userType: {
       type: String,
-      required: True
+      required: true
     }
   });
 

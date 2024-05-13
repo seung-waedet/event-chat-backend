@@ -1,14 +1,14 @@
 const Joi = require('joi');
 
-const speakerSchema = Joi.object({
+const participantSchema = Joi.object({
   name: Joi.string().min(3).trim().required(),
   bio: Joi.string().optional().allow(''), // Allow empty string for optional bio
 });
 
 
-const validateAddSpeaker = async (req, res, next) => {
+const validateAddParticipant = async (req, res, next) => {
     try {
-      const { error } = speakerSchema.validate(req.body);
+      const { error } = participantSchema.validate(req.body);
       if (error) {
         return res.status(400).json({ error: error.details[0].message });
       }
@@ -21,10 +21,10 @@ const validateAddSpeaker = async (req, res, next) => {
   };
 
 
-  const validateUpdateSpeaker = async (req, res, next) => {
+  const validateUpdateParticipant = async (req, res, next) => {
   try {
     // Modify the Joi schema to allow optional fields for update
-    const updateSchema = speakerSchema.clone().optionalKeys(['name', 'bio']);
+    const updateSchema = participantSchema.clone().optionalKeys(['name', 'bio']);
 
     const { error } = updateSchema.validate(req.body);
     if (error) {
@@ -39,6 +39,6 @@ const validateAddSpeaker = async (req, res, next) => {
 
 
 module.exports = {
-    validateAddSpeaker,
-    validateUpdateSpeaker
+    validateAddParticipant,
+    validateUpdateParticipant
 }

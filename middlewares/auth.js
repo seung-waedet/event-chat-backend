@@ -39,6 +39,16 @@ const bearerTokenAuth = async (req, res, next) => {
     }
 }
 
+
+const checkAdmin = (req, res, next) => {
+    if (req.user.userType !== 'admin') {
+        return res.status(403).json({ message: 'You are not authorized!' });
+    }
+
+    next()
+}
+
+
 module.exports = {
     bearerTokenAuth
 }
