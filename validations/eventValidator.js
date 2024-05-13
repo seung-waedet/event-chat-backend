@@ -1,11 +1,11 @@
 const Joi = require('joi');
 
 const eventSchema = Joi.object({
-  name: Joi.string().min(3).trim().required(),
-  description: Joi.string().min(3).trim().required(),
-  start_date_time: Joi.date().required(),
-  end_date_time: Joi.date().greater(Joi.ref('start_date_time')).required(), // Ensure end date is after start date
-
+  name: Joi.string().required(),
+  description: Joi.string().required(),
+  isLive: Joi.string(), // Assuming isLive can be optional
+  createdBy: Joi.string().pattern(/^[0-9a-fA-F]{24}$/), // Assuming createdBy is a valid ObjectId string
+  code: Joi.string().alphanum().required() // Assuming code is required and must be alphanumeric
 });
 
 const validateAddEvent = (req, res, next) => {

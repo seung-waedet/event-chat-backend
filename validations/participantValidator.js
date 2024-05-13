@@ -1,8 +1,12 @@
 const Joi = require('joi');
 
 const participantSchema = Joi.object({
-  name: Joi.string().min(3).trim().required(),
-  bio: Joi.string().optional().allow(''), // Allow empty string for optional bio
+    type: Joi.string().required(),
+    displayName: Joi.string().required(),
+    isHost: Joi.boolean().required(),
+    isAnon: Joi.boolean().required(),
+    eventId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(), 
+    userId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required()
 });
 
 

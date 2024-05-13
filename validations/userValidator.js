@@ -8,8 +8,7 @@ const userSchema = Joi.object({
     }
     return value;
   }),
-  username: Joi.string().alphanum().min(3).max(30).required(),
-  password: Joi.string().min(8).required(),
+  password: Joi.string().min(6).required(),
   displayName: Joi.string().min(3).trim().optional(),
   bio: Joi.string().min(3).trim().optional(),
   userType: Joi.string().valid('admin', 'speaker', 'participant').required()

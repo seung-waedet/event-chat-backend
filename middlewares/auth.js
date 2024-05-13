@@ -17,12 +17,12 @@ const bearerTokenAuth = async (req, res, next) => {
     const token = authHeader.authorization.split(' ')[1]; // bearer tokenvalue
 
     const decoded =  await jwt.verify(token, jwt_secret)
+    
 
-    const user = await UserModel.findOne({ _id: decoded._id })
+    const user = await UserModel.findOne({ _id: decoded._id, userType: decoded.userType })
     
     
     if (!user) {
-        console.log(user)
         return res.status(401).json({
             message: "Unauthorized",
         })

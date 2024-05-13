@@ -10,7 +10,7 @@ require('dotenv').config();
 
 userRoute.post( "/signup", validateSignup, userController.signUp);
 
-userRoute.post( "/createUser", bearerTokenAuth, validate(userSchema), userController.createUser);
+userRoute.post( "/createuser", bearerTokenAuth, validate(userSchema), userController.createUser);
 
 userRoute.post("/login", validateLogin, userController.Login);
 

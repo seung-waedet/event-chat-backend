@@ -1,8 +1,11 @@
 const Joi = require('joi');
 
 const questionSchema = Joi.object({
-  content: Joi.string().min(3).trim().required(),
-  anonymous: Joi.boolean().required(),
+    content: Joi.string().required(),
+    assignedTo: Joi.string().required(),
+    isAnswered: Joi.boolean(),
+    eventId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(), 
+    participantId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required()
 });
 
 

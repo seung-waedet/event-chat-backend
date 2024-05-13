@@ -5,7 +5,7 @@ require('dotenv').config()
 
 const createUser = async (req, res) => {
         try {
-          const newUser = new User(req.body);
+          const newUser = new UserModel(req.body);
           await newUser.save();
           res.status(201).json(newUser);
         } catch (err) {
@@ -19,42 +19,34 @@ const createUser = async (req, res) => {
 
 const signUp = async (req, res) => {
     try {
-        const userFromRequest = req.body
+        const { displayName, email, password, displayImage, bio, userType } = req.body;
 
-        const [existingEmailUser, existingUsernameUser] = await Promise.all([
-            UserModel.findOne({ email: userFromRequest.email }),
-            UserModel.findOne({ username: userFromRequest.username }),
-        ]);
-
-        if (existingEmailUser) {
-            return res.status(409).json({
-                message: 'Email already in use',
-            })
-        } else if (existingUsernameUser) {
-            return res.status(409).json({
-                message: 'Username already taken',
-            })
+        // Check if email already exists
+        const existingUser = await UserModel.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Email already exists' });
         }
-    
-        const user = await UserModel.create({
-            first_name: userFromRequest.first_name,
-            last_name: userFromRequest.last_name,
-            username: userFromRequest.username,
-            password: userFromRequest.password,
-            email: userFromRequest.email,
-        });
-        
-        return res.status(201).json({
-            message: 'User created successfully',
-        }) 
-        
-    } catch (error) {
-        return res.status(500).json({
-            message: 'Server Error',
-            data: null
-        })
-    }
 
+        const newUser = new UserModel({
+            displayName,
+            email,
+            password,
+            displayImage,
+            bio,
+            userType
+        });
+
+        await newUser.save();
+
+
+        res.status(201).json({ 
+            message: 'User created successfully',
+             token
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error creating user' });
+    }
 }
 
 
