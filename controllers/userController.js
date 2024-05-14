@@ -89,9 +89,53 @@ const Login = async (req, res) => {
     }
 }
 
+const getUserById = async (req, res) => {
+    try {
+        const user = await UserModel.findById(req.params.userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.json(user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching user' });
+    }
+};
+
+// Update user by ID
+const updateUserById = async (req, res) => {
+    try {
+        const user = await UserModel.findByIdAndUpdate(req.params.userId, req.body, { new: true });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.json(user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error updating user' });
+    }
+};
+
+// Delete user by ID
+const deleteUserById = async (req, res) => {
+    try {
+        const user = await UserModel.findByIdAndDelete(req.params.userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.json({ message: 'User deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error deleting user' });
+    }
+};
+
 
 module.exports = {
     signUp,
     createUser,
-    Login
+    Login,
+    getUserById,
+    updateUserById,
+    deleteUserById
 }

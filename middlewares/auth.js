@@ -50,5 +50,6 @@ const checkAdmin = (req, res, next) => {
 
 
 module.exports = {
-    bearerTokenAuth
+    bearerTokenAuth,
+    checkAdmin
 }
