@@ -1,18 +1,19 @@
 const express = require("express");
 const eventRoute = express.Router();
 const eventController = require("../controllers/eventController")
-const { bearerTokenAuth } = require("../middlewares/auth")
-const {validateAddEvent, validateUpdateEvent} = require("../validations/eventValidator")
+const { bearerTokenAuth, checkAdmin } = require("../middlewares/auth")
+const {validateAddEvent, validateUpdateEvent, eventSchema} = require("../validations/eventValidator")
+const  validate  = require("../middlewares/validate")
 
 
-eventRoute.get("/events", bearerTokenAuth, eventController.getEvents)
+eventRoute.get("/events", bearerTokenAuth, checkAdmin, eventController.getEvents)
 
-eventRoute.get("/events/:id", bearerTokenAuth, eventController.getEventById)
+eventRoute.get("/events/:id", bearerTokenAuth, checkAdmin, eventController.getEventById)
 
-eventRoute.post("/events", validateAddEvent, bearerTokenAuth, eventController.createEvent)
+eventRoute.post("/events", validate(eventSchema), bearerTokenAuth, checkAdmin, eventController.createEvent)
 
-eventRoute.patch("/events/:id", validateUpdateEvent, bearerTokenAuth, eventController.updateEvent)
+eventRoute.patch("/events/:id", validate(eventSchema), bearerTokenAuth, checkAdmin, eventController.updateEvent)
 
-eventRoute.delete("/events/:id", bearerTokenAuth, eventController.deleteEvent)
+eventRoute.delete("/events/:id", bearerTokenAuth, checkAdmin, eventController.deleteEvent)
 
 module.exports = eventRoute;

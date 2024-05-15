@@ -41,7 +41,6 @@ const signUp = async (req, res) => {
 
         res.status(201).json({ 
             message: 'User created successfully',
-             token
         });
     } catch (error) {
         console.error(error);
@@ -91,7 +90,7 @@ const Login = async (req, res) => {
 
 const getUserById = async (req, res) => {
     try {
-        const user = await UserModel.findById(req.params.userId);
+        const user = await UserModel.findById(req.params.id);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -105,7 +104,7 @@ const getUserById = async (req, res) => {
 // Update user by ID
 const updateUserById = async (req, res) => {
     try {
-        const user = await UserModel.findByIdAndUpdate(req.params.userId, req.body, { new: true });
+        const user = await UserModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -119,7 +118,7 @@ const updateUserById = async (req, res) => {
 // Delete user by ID
 const deleteUserById = async (req, res) => {
     try {
-        const user = await UserModel.findByIdAndDelete(req.params.userId);
+        const user = await UserModel.findByIdAndDelete(req.params.id);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }

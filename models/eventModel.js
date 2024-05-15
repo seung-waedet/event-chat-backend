@@ -22,6 +22,11 @@ const eventSchema = new Schema({
   code: {
   type: String,
   unique: true
+  },
+  speakers: {
+    type: Array,
+    isHost: boolean,
+    userId: String
   }
 });
 

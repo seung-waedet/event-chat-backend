@@ -1,20 +1,15 @@
 const Joi = require('joi');
 
-const userSchema = Joi.object({
-  name: Joi.string().min(3).trim().optional(),
-  email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'org', 'io'] } }).optional().custom((value, helper) => {
-    if (value && helper.state.userExists) {
-      return helper.error('email already exists');
-    }
-    return value;
-  }),
-  password: Joi.string().min(6).required(),
-  displayName: Joi.string().min(3).trim().optional(),
-  bio: Joi.string().min(3).trim().optional(),
-  userType: Joi.string().valid('admin', 'speaker', 'participant').required()
-
-
-});
+const userSchema = {
+  body: Joi.object({
+    displayName: Joi.string().required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+    displayImage: Joi.string().uri().optional().allow(null),
+    bio: Joi.string().required(),
+    userType: Joi.string().valid('admin', 'speaker', 'attendee').required()
+  })
+}
 
 
 const validateSignup = async (req, res, next) => {

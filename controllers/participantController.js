@@ -15,7 +15,7 @@ const createParticipant = async (req, res) => {
 // Get all participants
 const getParticipants = async (req, res) => {
   try {
-    const participants = await participant.find().populate('event_id', 'name description'); // Populates event details
+    const participants = await participant.find().populate('event_id', 'description'); // Populates event details
     res.status(200).json(participants);
   } catch (err) {
     console.error(err);
@@ -26,7 +26,7 @@ const getParticipants = async (req, res) => {
 // Get a single participant by ID
 const getParticipantById = async (req, res) => {
   try {
-    const participant = await participant.findById(req.params.id).populate('event_id', 'name description'); // Populates event details
+    const participant = await participant.findById(req.params.id).populate('event_id', 'description'); // Populates event details
     if (!participant) {
       return res.status(404).json({ message: "participant not found" });
     }

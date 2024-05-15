@@ -1,12 +1,21 @@
 const Joi = require('joi');
 
-const eventSchema = Joi.object({
-  name: Joi.string().required(),
-  description: Joi.string().required(),
-  isLive: Joi.string(), // Assuming isLive can be optional
-  createdBy: Joi.string().pattern(/^[0-9a-fA-F]{24}$/), // Assuming createdBy is a valid ObjectId string
-  code: Joi.string().alphanum().required() // Assuming code is required and must be alphanumeric
-});
+const eventSchema = {
+  body: Joi.object({
+    name: Joi.string().required(),
+    description: Joi.string().required(),
+    isLive: Joi.string(), 
+    createdBy: Joi.string().pattern(/^[0-9a-fA-F]{24}$/), 
+    code: Joi.string().alphanum().required(),
+    speakers: Joi.array().items(
+      Joi.object({
+        type: Joi.string().valid('speaker').required(),
+        isHost: Joi.boolean().required(),
+        userId: Joi.string().required()
+      })
+    )
+  })
+}
 
 const validateAddEvent = (req, res, next) => {
     try {
@@ -29,8 +38,8 @@ const validateAddEvent = (req, res, next) => {
       const updateSchema = eventSchema.clone().optionalKeys([
         'name',
         'description',
-        'start_date_time',
-        'end_date_time'
+        'isLive'
+    
       ]);
   
       const { error } = updateSchema.validate(req.body);
@@ -48,6 +57,7 @@ const validateAddEvent = (req, res, next) => {
 
   module.exports = {
     validateAddEvent,
-    validateUpdateEvent
+    validateUpdateEvent,
+    eventSchema
   }
   

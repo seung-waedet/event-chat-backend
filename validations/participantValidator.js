@@ -1,13 +1,15 @@
 const Joi = require('joi');
 
-const participantSchema = Joi.object({
+const participantSchema = {
+  body: Joi.object({
     type: Joi.string().required(),
     displayName: Joi.string().required(),
     isHost: Joi.boolean().required(),
     isAnon: Joi.boolean().required(),
     eventId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(), 
     userId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required()
-});
+})
+}
 
 
 const validateAddParticipant = async (req, res, next) => {
@@ -27,7 +29,6 @@ const validateAddParticipant = async (req, res, next) => {
 
   const validateUpdateParticipant = async (req, res, next) => {
   try {
-    // Modify the Joi schema to allow optional fields for update
     const updateSchema = participantSchema.clone().optionalKeys(['name', 'bio']);
 
     const { error } = updateSchema.validate(req.body);
@@ -44,5 +45,6 @@ const validateAddParticipant = async (req, res, next) => {
 
 module.exports = {
     validateAddParticipant,
-    validateUpdateParticipant
+    validateUpdateParticipant,
+    participantSchema
 }

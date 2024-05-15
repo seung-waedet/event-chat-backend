@@ -1,7 +1,8 @@
 const express = require("express");
 const questionRoute = express.Router();
 const questionController = require("../controllers/questionController")
-const {validateAddQuestion, validateUpdateQuestion} = require("../validations/questionValidator")
+const {validateAddQuestion, validateUpdateQuestion, questionSchema} = require("../validations/questionValidator")
+const  validate  = require("../middlewares/validate")
 
 
 questionRoute.post("/questions", validateAddQuestion, questionController.createQuestion)
