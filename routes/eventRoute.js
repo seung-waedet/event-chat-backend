@@ -2,7 +2,7 @@ const express = require("express");
 const eventRoute = express.Router();
 const eventController = require("../controllers/eventController")
 const { bearerTokenAuth, checkAdmin } = require("../middlewares/auth")
-const {validateAddEvent, validateUpdateEvent, eventSchema} = require("../validations/eventValidator")
+const {eventSchema} = require("../validations/eventValidator")
 const  validate  = require("../middlewares/validate")
 
 

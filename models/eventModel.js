@@ -23,11 +23,13 @@ const eventSchema = new Schema({
   type: String,
   unique: true
   },
-  speakers: {
-    type: Array,
-    isHost: boolean,
-    userId: String
-  }
+  speakers: [
+    {
+      type: { type: String, required: true },
+      isHost: { type: Boolean, required: true },
+      userId: { type: String, required: true }
+    }
+  ]
 });
 
 module.exports = mongoose.model('Event', eventSchema);

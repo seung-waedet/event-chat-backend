@@ -17,47 +17,9 @@ const eventSchema = {
   })
 }
 
-const validateAddEvent = (req, res, next) => {
-    try {
-      const { error } = eventSchema.validate(req.body);
-      if (error) {
-        return res.status(400).json({ error: error.details[0].message });
-      }
-  
-      next();
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Internal server error' });
-    }
-  };
 
-  const validateUpdateEvent = async (req, res, next) => {
-    try {
-
-      // Modify the Joi schema to allow optional fields for update
-      const updateSchema = eventSchema.clone().optionalKeys([
-        'name',
-        'description',
-        'isLive'
-    
-      ]);
-  
-      const { error } = updateSchema.validate(req.body);
-      if (error) {
-        return res.status(400).json({ error: error.details[0].message });
-      }
-  
-      next();
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Internal server error' });
-    }
-  };
-  
 
   module.exports = {
-    validateAddEvent,
-    validateUpdateEvent,
     eventSchema
   }
   

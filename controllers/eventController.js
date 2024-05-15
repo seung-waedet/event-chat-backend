@@ -1,5 +1,6 @@
 const Event = require('../models/eventModel');
-const express = require('express');
+const participantModel = require('../models/participantModel');
+
 
 
 // Create a new Event
@@ -7,6 +8,26 @@ const createEvent = async (req, res) => {
   try {
     const newEvent = new Event(req.body);
     await newEvent.save();
+    const speakers = newEvent.speakers
+
+    // Add speaker to participants list
+    const participantPromises = speakers.map(async (speaker) => {
+      const participant = new participantModel({
+        type: speaker.type,
+        displayName: speaker.displayName, 
+        isHost: speaker.isHost,
+        isAnon: false,  
+        eventId: newEvent._id,
+        userId: speaker.userId
+      });
+      return participant.save();
+    });
+
+    await Promise.all(participantPromises);
+
+    // Save the event
+    await newEvent.save();
+
     res.status(201).json(newEvent);
   } catch (err) {
     console.error(err);

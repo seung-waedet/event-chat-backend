@@ -2,7 +2,7 @@ const express = require("express");
 const participantRoute = express.Router();
 const participantController = require("../controllers/participantController")
 const { bearerTokenAuth } = require("../middlewares/auth")
-const {validateAddParticipant, validateUpdateParticipant, participantSchema} = require("../validations/participantValidator")
+const {participantSchema} = require("../validations/participantValidator")
 const  validate  = require("../middlewares/validate")
 
 

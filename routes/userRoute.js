@@ -16,7 +16,7 @@ userRoute.post("/login", validateLogin, userController.Login);
 
 userRoute.get( "/users/:id", bearerTokenAuth, checkAdmin, userController.getUserById);
 
-userRoute.patch( "/users/:id", bearerTokenAuth, checkAdmin, userController.updateUserById);
+userRoute.patch( "/users/:id", validate(userSchema), bearerTokenAuth, checkAdmin, userController.updateUserById);
 
 userRoute.delete( "/users/:id", bearerTokenAuth, checkAdmin, userController.getUserById);
 

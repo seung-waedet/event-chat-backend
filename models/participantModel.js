@@ -9,15 +9,14 @@ const participantSchema = new Schema({
     },
     displayName: {
       type: String,
-      required: true
     },
     isHost: {
       type: Boolean,
-      required: true
+      default: true
     },
     isAnon: {
       type: Boolean,
-      required: true
+      default: true
     },
     eventId: {
       type: Schema.Types.ObjectId,
