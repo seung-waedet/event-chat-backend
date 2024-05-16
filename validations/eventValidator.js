@@ -17,9 +17,25 @@ const eventSchema = {
   })
 }
 
+const registeredUserSchema = {
+  body: Joi.object({
+    code: Joi.string().required(),
+    userId: Joi.string().required(),
+  })
+}
+
+const unregisteredUserSchema = {
+  body: Joi.object({
+    code: Joi.string().required(),
+    displayName: Joi.string().required(),
+    isAnon: Joi.boolean().required(),
+  })
+}
 
 
   module.exports = {
-    eventSchema
+    eventSchema,
+    registeredUserSchema,
+    unregisteredUserSchema
   }
   

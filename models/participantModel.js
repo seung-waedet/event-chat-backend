@@ -5,7 +5,10 @@ const Schema = mongoose.Schema;
 const participantSchema = new Schema({
     type: {
       type: String,
-      required: true
+      enum: [
+        "speaker", "attendee", "admin"
+      ],
+      default: "speaker"
     },
     displayName: {
       type: String,
@@ -26,7 +29,7 @@ const participantSchema = new Schema({
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: true
+      required: false
     },
   });
 

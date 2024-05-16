@@ -9,10 +9,11 @@ const questionSchema = new Schema({
     },
     assignedTo: {
       type: String,
-      required: true
+      required: false
     },
     isAnswered: {
       type: Boolean,
+      default: false
     },
     eventId: {
       type: Schema.Types.ObjectId,

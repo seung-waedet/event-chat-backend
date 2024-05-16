@@ -10,8 +10,24 @@ const questionSchema = {
 })
 }
 
-
+const askQuestionSchema = {
+  body: Joi.object({
+    content: Joi.string().required(),
+    assignedTo: Joi.string(),
+    eventId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(), 
+    participantId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required()
+})
+}
   
+const updateQuestionSchema = {
+  body: Joi.object({
+    content: Joi.string(),
+    assignedTo: Joi.string(),
+    isAnswered: Joi.boolean()
+  })
+}
 module.exports = {
-    questionSchema
+    questionSchema,
+    askQuestionSchema,
+    updateQuestionSchema
 }
