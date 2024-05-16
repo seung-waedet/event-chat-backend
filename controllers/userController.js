@@ -1,13 +1,20 @@
 const UserModel = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 require('dotenv').config()
+const sendEmailWithBrevo = require('../services/emailService');
 
 
 const createUser = async (req, res) => {
         try {
           const newUser = new UserModel(req.body);
           await newUser.save();
-          res.status(201).json(newUser);
+            const html = `Hi ${newUser.displayName}, Here's your password ${req.body.password}`
+          await sendEmailWithBrevo(html, newUser.email)
+
+          return res.status(201).json(newUser);
+
+
+
         } catch (err) {
           if (err.code === 11000 && err.keyValue.email) { // Handle duplicate email error
             return res.status(400).json({ message: "Email already exists" });

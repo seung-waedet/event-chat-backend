@@ -13,12 +13,8 @@ const createEvent = async (req, res) => {
     // Add speaker to participants list
     const participantPromises = speakers.map(async (speaker) => {
       const participant = new participantModel({
-        type: speaker.type,
-        displayName: speaker.displayName, 
-        isHost: speaker.isHost,
-        isAnon: false,  
         eventId: newEvent._id,
-        userId: speaker.userId
+        ...speaker
       });
       return participant.save();
     });
