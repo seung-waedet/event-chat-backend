@@ -11,7 +11,7 @@ const createUser = async (req, res) => {
             const html = `Hi ${newUser.displayName}, Here's your password ${req.body.password}`
           await sendEmailWithBrevo(html, newUser.email)
 
-          return res.status(201).json(newUser);
+          return res.status(201).json({ message: "User created successfully, Email Sent"});
 
 
 
@@ -95,6 +95,20 @@ const Login = async (req, res) => {
     }
 }
 
+
+// Get all Events
+const getUsers = async (req, res) => {
+    try {
+      const users = await UserModel.find();
+      res.status(200).json(users);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Error fetching users" });
+    }
+  };
+
+
+
 const getUserById = async (req, res) => {
     try {
         const user = await UserModel.findById(req.params.id);
@@ -141,6 +155,7 @@ module.exports = {
     signUp,
     createUser,
     Login,
+    getUsers,
     getUserById,
     updateUserById,
     deleteUserById

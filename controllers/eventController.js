@@ -12,7 +12,7 @@ const createEvent = async (req, res) => {
 
     // Add speaker to participants list
     const participantPromises = speakers.map(async (speaker) => {
-      const participant = new participantModel({
+      const participant = new Participant({
         eventId: newEvent._id,
         ...speaker
       });
@@ -125,19 +125,30 @@ const getEventById = async (req, res) => {
 // Update an Event by ID
 const updateEvent = async (req, res) => {
   const { id } = req.params;
-  const update = req.body;
+  const { speakers, ...otherUpdates } = req.body;
 
   try {
-    const updatedEvent = await Event.findByIdAndUpdate(id, update, { new: true });
-    if (!updatedEvent) {
-      return res.status(404).json({ message: "Event not found" });
+    // Find the event by ID
+    const event = await Event.findById(id);
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
     }
-    res.status(200).json(updatedEvent);
+
+    // Merge speakers if provided
+    if (speakers) {
+      event.speakers = [...event.speakers, ...speakers];
+    }
+
+    // Apply other updates
+    Object.assign(event, otherUpdates);
+
+    await event.save();
+
+    res.status(200).json({ message: 'Event updated successfully', event });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Error updating event" });
+    res.status(500).json({ message: 'Internal server error', error: err.message });
   }
-};
+}
 
 // Delete an Event by ID
 const deleteEvent = async (req, res) => {

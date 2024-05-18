@@ -12,40 +12,31 @@ const userSchema = {
 }
 
 
-const validateSignup = async (req, res, next) => {
-    try {
-      const { error } = userSchema.validate(req.body);
-      if (error) {
-        return res.status(400).json({ error: error.details[0].message });
-      }
-  
-      next();
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Internal server error' });
-    }
-  };
-  
+const loginSchema = {
+  body: Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().required()
+  })
+}
 
-  const validateLogin = (req, res, next) => {
-    try {
-      const { error } = Joi.object({
-        email: Joi.string().required(),
-        password: Joi.string().required(),
-      }).validate(req.body);
-      if (error) {
-        return res.status(400).json({ error: error.details[0].message });
-      }
-  
-      next();
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Internal server error' });
-    }
-  };
+const userIdParamSchema = Joi.object({
+  id: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required()
+});
+
+const patchUserSchema = {
+  body: Joi.object({
+    displayName: Joi.string().optional(),
+    email: Joi.string().email().optional(),
+    password: Joi.string().min(6).optional(),
+    displayImage: Joi.string().uri().optional(),
+    bio: Joi.string().optional(),
+    userType: Joi.string().valid('admin', 'attendee', 'speaker').optional()
+  }).min(1)
+}
   
 module.exports = {
-    validateSignup,
-    validateLogin,
-    userSchema
+    loginSchema,
+    userSchema,
+    patchUserSchema,
+    userIdParamSchema
 }

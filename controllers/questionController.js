@@ -69,8 +69,8 @@ const askQuestion = async (req, res) => {
 const getQuestions = async (req, res) => {
   try {
     const questions = await Question.find()
-      .populate('event_id', 'name description') // Populates event details
-      .populate('user_id', 'name'); // Populates user details (if available)
+      .populate('eventId', 'name description') // Populates event details
+      .populate('participantId', 'displayName'); // Populates user details (if available)
     res.status(200).json(questions);
   } catch (err) {
     console.error(err);
@@ -83,7 +83,7 @@ const getQuestionById = async (req, res) => {
   try {
     const question = await Question.findById(req.params.id)
       .populate('eventId', 'name description') // Populates event details
-      .populate('userId', 'name'); // Populates user details (if available)
+      .populate('participantId', 'displayName'); // Populates participant details (if available)
     if (!question) {
       return res.status(404).json({ message: "Question not found" });
     }

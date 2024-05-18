@@ -7,7 +7,18 @@ const participantSchema = {
     isHost: Joi.boolean().required(),
     isAnon: Joi.boolean().required(),
     eventId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required(), 
-    userId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required()
+    userId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).optional()
+})
+}
+
+const editParticipantSchema = {
+    body: Joi.object({
+    type: Joi.string().optional(),
+    displayName: Joi.string().optional(),
+    isHost: Joi.boolean().optional(),
+    isAnon: Joi.boolean().optional(),
+    eventId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).optional(), 
+    userId: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).optional()
 })
 }
 
@@ -15,5 +26,6 @@ const participantSchema = {
 
 
 module.exports = {
-    participantSchema
+    participantSchema,
+    editParticipantSchema
 }
