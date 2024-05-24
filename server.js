@@ -6,6 +6,8 @@ const eventRoute = require("./routes/eventRoute")
 const questionRoute = require("./routes/questionRoute")
 const participantRoute = require("./routes/participantRoute")
 const db = require("./db")
+const swaggerSetup = require('./swagger');
+
 
 const PORT = process.env.PORT || 3000
 
@@ -15,6 +17,8 @@ db.connectToDb();
 
 // logger
 app.use(logger("dev"));
+
+swaggerSetup(app);
 
 // Routes
 app.use("/api", userRoute, eventRoute, questionRoute, participantRoute)
