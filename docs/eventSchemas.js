@@ -3,6 +3,11 @@
 /**
  * @swagger
  * components:
+ *   securitySchemes:
+ *    jwtAuth:
+ *         type: http
+ *         scheme: bearer
+ *         bearerFormat: JWT  
  *   schemas:
  *     Event:
  *       type: object

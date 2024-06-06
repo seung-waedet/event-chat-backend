@@ -9,7 +9,7 @@
 
 /**
  * @swagger
- * /signup:
+ * /api/signup:
  *   post:
  *     summary: Sign up a new user
  *     tags: [Users]
@@ -30,12 +30,12 @@
 
 /**
  * @swagger
- * /users:
+ * /api/users:
  *   post:
  *     summary: Create a new user
  *     tags: [Users]
  *     security:
- *       - bearerAuth: []
+ *      - jwtAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -53,7 +53,7 @@
 
 /**
  * @swagger
- * /login:
+ * /api/login:
  *   post:
  *     summary: Login a user
  *     tags: [Users]
@@ -72,12 +72,12 @@
 
 /**
  * @swagger
- * /users:
+ * /api/users:
  *   get:
  *     summary: Get all users
  *     tags: [Users]
  *     security:
- *       - bearerAuth: []
+ *      - jwtAuth: []
  *     responses:
  *       200:
  *         description: Successfully retrieved users
@@ -87,12 +87,12 @@
 
 /**
  * @swagger
- * /users/{id}:
+ * /api/users/{id}:
  *   get:
  *     summary: Get a user by ID
  *     tags: [Users]
- *     security:
- *       - bearerAuth: []
+  *     security:
+ *      - jwtAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -111,12 +111,12 @@
 
 /**
  * @swagger
- * /users/{id}:
+ * /api/users/{id}:
  *   patch:
  *     summary: Update a user by ID
  *     tags: [Users]
  *     security:
- *       - bearerAuth: []
+ *      - jwtAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -141,12 +141,12 @@
 
 /**
  * @swagger
- * /users/{id}:
+ * /api/users/{id}:
  *   delete:
  *     summary: Delete a user by ID
  *     tags: [Users]
  *     security:
- *       - bearerAuth: []
+ *      - jwtAuth: []
  *     parameters:
  *       - in: path
  *         name: id

@@ -9,12 +9,12 @@
 
 /**
  * @swagger
- * /events:
+ * /api/events:
  *   get:
  *     summary: Get all events
  *     tags: [Events]
  *     security:
- *       - bearerAuth: []
+ *       - jwtAuth: []
  *     responses:
  *       200:
  *         description: Successfully retrieved events
@@ -24,12 +24,12 @@
 
 /**
  * @swagger
- * /events/{id}:
+ * /api/events/{id}:
  *   get:
  *     summary: Get an event by ID
  *     tags: [Events]
  *     security:
- *       - bearerAuth: []
+ *       - jwtAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -48,7 +48,7 @@
 
 /**
  * @swagger
- * /join-event-registered:
+ * /api/join-event-registered:
  *   post:
  *     summary: Join an event as a registered user
  *     tags: [Events]
@@ -69,7 +69,7 @@
 
 /**
  * @swagger
- * /join-event-unregistered:
+ * /api/join-event-unregistered:
  *   post:
  *     summary: Join an event as an unregistered user
  *     tags: [Events]
@@ -90,12 +90,12 @@
 
 /**
  * @swagger
- * /events:
+ * /api/events:
  *   post:
  *     summary: Create a new event
  *     tags: [Events]
  *     security:
- *       - bearerAuth: []
+ *       - jwtAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -111,12 +111,12 @@
 
 /**
  * @swagger
- * /events/{id}:
+ * /api/events/{id}:
  *   patch:
  *     summary: Update an event by ID
  *     tags: [Events]
  *     security:
- *       - bearerAuth: []
+ *       - jwtAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -141,12 +141,12 @@
 
 /**
  * @swagger
- * /events/{id}:
+ * /api/events/{id}:
  *   delete:
  *     summary: Delete an event by ID
  *     tags: [Events]
- *     security:
- *       - bearerAuth: []
+  *     security:
+ *      - jwtAuth: []
  *     parameters:
  *       - in: path
  *         name: id

@@ -9,12 +9,12 @@
 
 /**
  * @swagger
- * /questions:
+ * /api/questions:
  *   get:
  *     summary: Get all questions
  *     tags: [Questions]
  *     security:
- *       - bearerAuth: []
+ *      - jwtAuth: []
  *     responses:
  *       200:
  *         description: Successfully retrieved questions
@@ -24,12 +24,12 @@
 
 /**
  * @swagger
- * /questions/{id}:
+ * /api/questions/{id}:
  *   get:
  *     summary: Get a question by ID
  *     tags: [Questions]
  *     security:
- *       - bearerAuth: []
+ *      - jwtAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -48,7 +48,7 @@
 
 /**
  * @swagger
- * /questions:
+ * /api/questions:
  *   post:
  *     summary: Create a new question
  *     tags: [Questions]
@@ -67,7 +67,7 @@
 
 /**
  * @swagger
- * /ask-questions:
+ * /api/ask-questions:
  *   post:
  *     summary: Ask a question
  *     tags: [Questions]
@@ -86,7 +86,7 @@
 
 /**
  * @swagger
- * /questions/{id}:
+ * /api/questions/{id}:
  *   patch:
  *     summary: Update a question by ID
  *     tags: [Questions]
@@ -114,7 +114,7 @@
 
 /**
  * @swagger
- * /questions/{id}:
+ * /api/questions/{id}:
  *   delete:
  *     summary: Delete a question by ID
  *     tags: [Questions]

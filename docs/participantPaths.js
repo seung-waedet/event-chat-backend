@@ -9,12 +9,12 @@
 
 /**
  * @swagger
- * /participants:
+ * /api/participants:
  *   get:
  *     summary: Get all participants
  *     tags: [Participants]
  *     security:
- *       - bearerAuth: []
+ *      - jwtAuth: []
  *     responses:
  *       200:
  *         description: Successfully retrieved participants
@@ -24,12 +24,12 @@
 
 /**
  * @swagger
- * /participants/{id}:
+ * /api/participants/{id}:
  *   get:
  *     summary: Get a participant by ID
  *     tags: [Participants]
  *     security:
- *       - bearerAuth: []
+ *      - jwtAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -48,12 +48,12 @@
 
 /**
  * @swagger
- * /participants:
+ * /api/participants:
  *   post:
  *     summary: Create a new participant
  *     tags: [Participants]
  *     security:
- *       - bearerAuth: []
+ *      - jwtAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -69,12 +69,12 @@
 
 /**
  * @swagger
- * /participants/{id}:
+ * /api/participants/{id}:
  *   patch:
  *     summary: Update a participant by ID
  *     tags: [Participants]
  *     security:
- *       - bearerAuth: []
+ *      - jwtAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -99,12 +99,12 @@
 
 /**
  * @swagger
- * /participants/{id}:
+ * /api/participants/{id}:
  *   delete:
  *     summary: Delete a participant by ID
  *     tags: [Participants]
  *     security:
- *       - bearerAuth: []
+ *      - jwtAuth: []
  *     parameters:
  *       - in: path
  *         name: ids
