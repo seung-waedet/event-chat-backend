@@ -3,6 +3,16 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
+
+const speakerSchema = new Schema({
+  type: String,
+  isHost: Boolean,
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
+});
+
 const eventSchema = new Schema({
   name: {
     type: String,
@@ -23,13 +33,8 @@ const eventSchema = new Schema({
   type: String,
   unique: true
   },
-  speakers: [
-    {
-      type: { type: String, required: true },
-      isHost: { type: Boolean, required: true },
-      userId: { type: String, required: true }
-    }
-  ]
+  speakers: [speakerSchema]
+
 });
 
 module.exports = mongoose.model('Event', eventSchema);

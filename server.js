@@ -7,11 +7,16 @@ const questionRoute = require("./routes/questionRoute")
 const participantRoute = require("./routes/participantRoute")
 const db = require("./db")
 const swaggerSetup = require('./swagger');
+const cors = require('cors')
 
+app.use(cors())
 
 const PORT = process.env.PORT || 3000
 
+app.use(express.urlencoded({ extended: false }));
+
 app.use(express.json());
+
 
 db.connectToDb();
 

@@ -100,7 +100,7 @@ const Login = async (req, res) => {
 const getUsers = async (req, res) => {
     try {
       const users = await UserModel.find();
-      res.status(200).json(users);
+      res.status(200).json({ data: users });
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Error fetching users" });
