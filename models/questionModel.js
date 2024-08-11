@@ -24,6 +24,14 @@ const questionSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Participant',
       required: false
+    },
+    isAnonymous: {
+      type: Boolean,
+      required: false
+    },
+    displayName: {
+      type: String,
+      required: false
     }
   });
 
