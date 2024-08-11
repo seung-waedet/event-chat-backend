@@ -23,7 +23,7 @@ const questionSchema = new Schema({
     participantId: {
       type: Schema.Types.ObjectId,
       ref: 'Participant',
-      required: true
+      required: false
     }
   });
 

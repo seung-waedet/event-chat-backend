@@ -8,7 +8,7 @@ const  validate  = require("../middlewares/validate")
 
 eventRoute.get("/events", bearerTokenAuth, checkAdmin, eventController.getEvents)
 
-eventRoute.get("/events/:id", bearerTokenAuth, checkAdmin, eventController.getEventById)
+eventRoute.get("/events/:id",  eventController.getEventById) // bearerTokenAuth, checkAdmin,
 
 eventRoute.post("/join-event-registered", validate(registeredUserSchema), eventController.joinEventRegistered)
 

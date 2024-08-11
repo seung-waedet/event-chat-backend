@@ -1,5 +1,7 @@
 const express = require("express")
 const app = express();
+const { Server } = require('socket.io');
+const http = require('http');
 const logger = require("morgan")
 const userRoute = require("./routes/userRoute");
 const eventRoute = require("./routes/eventRoute")
@@ -9,8 +11,16 @@ const db = require("./db")
 const swaggerSetup = require('./swagger');
 const cors = require('cors')
 
-app.use(cors())
 
+const server = http.createServer(app);
+
+app.use(cors())
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3001", // Adjust this to your frontend URL
+    methods: ["GET", "POST"]
+  }
+});
 const PORT = process.env.PORT || 3000
 
 app.use(express.urlencoded({ extended: false }));
@@ -34,6 +44,13 @@ app.get("/", (req, res) => {
   });
 
 
+// Socket.IO Connection
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
 
   // Error Handler
 app.use(function (err, req, res, next) {
