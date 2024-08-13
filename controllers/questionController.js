@@ -25,15 +25,34 @@ module.exports = function(io) {
 
         await question.save();
 
-        console.log('New question:', question);
+        // console.log('New question:', question);
 
         // Emit the new question to all connected clients
-        io.emit('new-question', question);
+
+        io.to(eventId).emit('new-question', question);
 
         res.status(201).json({ message: 'Question asked successfully', question });
       } catch (err) {
         console.error('Error in askQuestion:', err);
         res.status(500).json({ message: 'Internal server error', error: err.message });
+      }
+    },
+
+      upvoteQuestion: async (req, res) => {
+      try {
+        const questionId = req.params.id;
+        const question = await Question.findById(questionId);
+        
+        if (!question) {
+          return res.status(404).json({ message: "Question not found" });
+        }
+        
+        question.upvotes += 1;  // Increment upvotes
+        await question.save();
+        
+        res.status(200).json({ message: "Upvoted successfully", question });
+      } catch (err) {
+        res.status(500).json({ message: "Error upvoting question", error: err });
       }
     },
 

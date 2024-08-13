@@ -51,6 +51,17 @@ app.get("/", (req, res) => {
 // Socket.IO Connection
 io.on('connection', (socket) => {
   console.log('a user connected');
+
+  socket.on('join-event', (eventId) => {
+    socket.join(eventId);
+    console.log(`User joined event: ${eventId}`);
+  });
+
+  socket.on('leave-event', (eventId) => {
+    socket.leave(eventId);
+    console.log(`User left event: ${eventId}`);
+  });
+
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });

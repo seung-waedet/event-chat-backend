@@ -32,7 +32,9 @@ const questionSchema = new Schema({
     displayName: {
       type: String,
       required: false
-    }
+    },
+    upvotes: { type: Number, default: 0 } 
+
   });
 
   module.exports = mongoose.model('question', questionSchema);

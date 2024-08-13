@@ -13,6 +13,8 @@ module.exports = function(io) {
 
     questionRoute.get("/questions/:id", bearerTokenAuth, checkAdmin, questionController.getQuestionById)
 
+    questionRoute.post("/upvote-question/:id", questionController.upvoteQuestion) 
+
     // questionRoute.post("/questions", validate(questionSchema), questionController.createQuestion)
 
     questionRoute.post("/ask-questions", validate(askQuestionSchema), questionController.askQuestion)
