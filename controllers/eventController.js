@@ -106,7 +106,7 @@ const joinEventUnregistered = async (req, res) => {
 // Get all Events
 const getEvents = async (req, res) => {
   try {
-    const events = await Event.find().populate('speakers.userId', 'name');
+    const events = await Event.find().populate('speakers.userId');
     res.status(200).json({ data: events });
   } catch (err) {
     console.error('Error fetching events:', err);

@@ -49,6 +49,10 @@ module.exports = function(io) {
         
         question.upvotes += 1;  // Increment upvotes
         await question.save();
+
+        // Emit the updated question to all connected clients
+
+        io.to(question.eventId.toString()).emit('updateQuestion', question);
         
         res.status(200).json({ message: "Upvoted successfully", question });
       } catch (err) {
