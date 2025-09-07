@@ -1,40 +1,54 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const questionSchema = new Schema({
+const questionSchema = new Schema(
+  {
     content: {
       type: String,
-      required: true
+      required: true,
     },
     assignedTo: {
       type: String,
-      required: false
+      required: false,
     },
     isAnswered: {
       type: Boolean,
-      default: false
+      default: false,
     },
     eventId: {
       type: Schema.Types.ObjectId,
-      ref: 'Event',
-      required: true
+      ref: "Event",
+      required: true,
     },
     participantId: {
       type: Schema.Types.ObjectId,
-      ref: 'Participant',
-      required: false
+      ref: "Participant",
+      required: false,
     },
     isAnonymous: {
       type: Boolean,
-      required: false
+      required: false,
     },
     displayName: {
       type: String,
-      required: false
+      required: false,
     },
-    upvotes: { type: Number, default: 0 } 
+    upvotedBy: [
+      {
+        type: String,
+      },
+    ],
+    isApproved: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  { timestamps: true },
+);
 
-  });
+questionSchema.virtual("upvotes").get(function () {
+  return this.upvotedBy.length;
+});
 
-  module.exports = mongoose.model('question', questionSchema);
+module.exports = mongoose.model("question", questionSchema);
