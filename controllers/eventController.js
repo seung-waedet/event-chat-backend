@@ -21,7 +21,7 @@ const createEvent = async (req, res) => {
 
     await Promise.all(participantPromises);
 
-    res.status(201).json(newEvent);
+    res.status(201).json({ data: newEvent, message: "Event created successfully" });
   } catch (err) {
     console.error("Error creating event:", err);
     res.status(500).json({ message: "Error creating event" });
@@ -53,7 +53,7 @@ const joinEventRegistered = async (req, res) => {
       });
     }
 
-    const event = await Event.findOne({ access_code: code });
+    const event = await Event.findOne({ code: code });
     if (!event) {
       return res.status(404).json({ 
         message: "Event not found. Please check your event code and try again." 
@@ -77,8 +77,10 @@ const joinEventRegistered = async (req, res) => {
     if (existingParticipant) {
       return res.status(200).json({
         message: "You are already registered for this event",
-        participant: existingParticipant,
-        event
+        data: {
+          participant: existingParticipant,
+          event
+        }
       });
     }
 
@@ -88,15 +90,17 @@ const joinEventRegistered = async (req, res) => {
       eventId: event._id,
       userId,
       uniqueId: userId,
-      displayName: user.name || user.email,
+      displayName: user.displayName || user.email,
     });
 
     await participant.save();
 
     res.status(201).json({ 
       message: "Successfully joined the event!",
-      participant,
-      event
+      data: {
+        participant,
+        event
+      }
     });
   } catch (err) {
     console.error("Error joining event:", err);
@@ -144,9 +148,9 @@ const joinEventUnregistered = async (req, res) => {
     }
 
     // Check if the event exists using the event code
-    const event = await Event.findOne({ access_code: code }).populate(
+    const event = await Event.findOne({ code: code }).populate(
       "speakers.userId",
-      "name",
+      "displayName",
     );
     
     if (!event) {
@@ -181,8 +185,10 @@ const joinEventUnregistered = async (req, res) => {
     // Return the participant and event data
     return res.status(200).json({ 
       message: "Successfully joined the event!",
-      participant, 
-      event 
+      data: {
+        participant, 
+        event 
+      }
     });
   } catch (error) {
     console.error("Error joining event:", error);
@@ -215,7 +221,7 @@ const getEventById = async (req, res) => {
   try {
     const event = await Event.findById(req.params.id).populate(
       "speakers.userId",
-      "name",
+      "displayName",
     );
     if (!event) {
       return res.status(404).json({ message: "Event not found" });
@@ -245,7 +251,7 @@ const updateEvent = async (req, res) => {
     Object.assign(event, otherUpdates);
     await event.save();
 
-    res.status(200).json({ message: "Event updated successfully", event });
+    res.status(200).json({ message: "Event updated successfully", data: event });
   } catch (err) {
     console.error("Error updating event:", err);
     res
@@ -311,10 +317,10 @@ const generateQRCode = async (req, res) => {
       return res.status(404).json({ message: "Event not found" });
     }
 
-    const joinURL = `http://localhost:3000/join?code=${event.access_code}`;
+    const joinURL = `http://localhost:3000/?code=${event.code}`;
     const qrCodeImage = await QRCode.toDataURL(joinURL);
 
-    res.status(200).send(`<img src="${qrCodeImage}">`);
+    res.status(200).json({ qrCode: qrCodeImage, joinURL });
   } catch (err) {
     console.error("Error generating QR code:", err);
     res.status(500).json({ message: "Error generating QR code" });
